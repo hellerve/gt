@@ -16,4 +16,5 @@ _gt_switch:
   mov 0x28(%rsi), %rbx
   mov 0x30(%rsi), %rbp
 
+  mov 0x38(%rsi), %rdi
   ret

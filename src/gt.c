@@ -50,26 +50,28 @@ bool gt_yield() {
 }
 
 void gt_resize() {
+  int diff = gt_cur-gt_table;
   SIZE *= 2;
   gt_table = realloc(gt_table, SIZE*sizeof(struct gt));
+  gt_cur = gt_table+diff;
 }
 
 void gt_stop() { gt_ret(0); }
 
-void gt_go(gt_fn f) {
-  char* stack;
+void gt_go(gt_fn f, void* arg) {
   struct gt* p;
+  char* stack;
 
   for (p = gt_table;; p++) {
-    if (p == gt_table+SIZE) { gt_resize(); break; }
+    if (p == gt_table+SIZE) { gt_resize(); p = gt_table; }
     else if (p->st == UNUSED) break;
   }
 
   stack = malloc(STACK_SIZE);
-  if (!stack) assert(!"out of memory");;
 
-  *(uint64_t*)&stack[STACK_SIZE-8] = (uint64_t)gt_stop;
-  *(uint64_t*)&stack[STACK_SIZE-16] = (uint64_t)f;
-  p->ctx.rsp = (uint64_t)&stack[STACK_SIZE-16];
+  *(uint64_t*)&(stack[STACK_SIZE-8]) = (uint64_t)gt_stop;
+  *(uint64_t*)&(stack[STACK_SIZE-16]) = (uint64_t)f;
+  p->ctx.rsp = (uint64_t)&(stack[STACK_SIZE-16]);
+  p->ctx.arg = (uint64_t)arg;
   p->st = READY;
 }

@@ -10,7 +10,7 @@ EXAMPLESRC=examples/printr.c
 SOURCES=$(wildcard src/*)
 override CFLAGS+=-std=c11 -O2 -Wno-gnu $(APPLE_CCFLAGS)
 SHARED=-shared
-DEVFLAGS=-Werror -Wall -g -fPIC -DNDEBUG -Wfloat-equal -Wundef -Wwrite-strings -Wuninitialized -pedantic -fsanitize=address -O0
+DEVFLAGS=-Werror -Wall -g -fPIC -DNDEBUG -Wfloat-equal -Wundef -Wwrite-strings -Wuninitialized -pedantic -O0 -fsanitize=address
 
 all:
 	mkdir -p $(BUILDDIR)

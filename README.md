@@ -2,12 +2,13 @@
 
 A simple greenthreads implementation for massive lightweight threads. It’s
 adapted from [this tutorial](https://c9x.me/articles/gthreads/intro.html), with
-the—kind of important—addition that the list of scheduled threads grows
+the—kind of important—additions that the list of scheduled threads grows
 dynamically instead of failing to schedule if the maximum thread number is
-reached.
+reached, and that you can pass one argument to the functions (through the use
+of structs you can add as many arguments as you like).
 
 I’d like to use this as a testbed to play around with schedulers if I find the
-time, and add functionality to hand a function parameters.
+time.
 
 ## Example
 
@@ -16,7 +17,7 @@ time, and add functionality to hand a function parameters.
 
 #include "gt.h"
 
-void f() {
+void f(void* unused) {
   static int x;
   int i, id;
 
@@ -31,7 +32,8 @@ int main() {
   int i;
   gt_init();
 
-  for (i = 0; i < 270; i++) gt_go(f);
+  // no argument; pass an argument instead of NULL here
+  for (i = 0; i < 270; i++) gt_go(f, NULL);
 
   gt_ret(1);
 }

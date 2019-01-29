@@ -3,13 +3,11 @@
 
 #include "../lib/gt.h"
 
-void f(void* unused) {
-  static int x = 0;
-  int i, id;
+void f(int* id) {
+  int i;
 
-  id = ++x;
   for (i = 0; i < 10; i++) {
-    printf("%d %d\n", id, i);
+    printf("%d %d\n", *id, i);
     gt_yield();
   }
 }
@@ -18,7 +16,11 @@ int main() {
   int i;
   gt_init();
 
-  for (i = 0; i < 270; i++) gt_go(f, NULL);
+  for (i = 0; i < 270; i++) {
+    int id;
+    id = i;
+    gt_go(f, &id);
+  }
 
   gt_ret(1);
 }

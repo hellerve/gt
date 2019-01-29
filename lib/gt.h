@@ -12,6 +12,7 @@ struct gt {
     uint64_t r12;
     uint64_t rbx;
     uint64_t rbp;
+    uint64_t arg;
   } ctx;
   enum {
     UNUSED,
@@ -24,5 +25,5 @@ void gt_init();
 void gt_ret();
 void gt_stop();
 bool gt_yield();
-void gt_go(gt_fn);
+void gt_go(gt_fn, void*);
 void gt_switch(struct gt_ctx*, struct gt_ctx*);
