@@ -3,6 +3,8 @@
 
 #include "../lib/gt.h"
 
+int* ids;
+
 void f(int* id) {
   int i;
 
@@ -12,15 +14,19 @@ void f(int* id) {
   }
 }
 
+void cleanup() {
+  free(ids);
+}
+
 int main() {
   int i;
+  ids = malloc(sizeof(int)*270);
   gt_init();
 
   for (i = 0; i < 270; i++) {
-    int id;
-    id = i;
-    gt_go(f, &id);
+    ids[i] = i;
+    gt_go(f, &ids[i]);
   }
 
-  gt_ret(1);
+  gt_ret(1, cleanup);
 }

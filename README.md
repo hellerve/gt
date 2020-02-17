@@ -35,15 +35,10 @@ int main() {
   // no argument; pass an argument instead of NULL here
   for (i = 0; i < 270; i++) gt_go(f, NULL);
 
-  gt_ret(1);
+  // the second argument is an optional cleanup function
+  gt_ret(1, NULL);
 }
 ```
-
-## TODO
-
-There is a memory error that you can examine by running `-fsanitize=address`.
-The example program seems to run fine either way, but there is something wicked
-in the weeds.
 
 <hr/>
 

@@ -20,5 +20,5 @@ int main() {
 
   for (i = 0; i < 270; i++) gt_go(f, NULL);
 
-  gt_ret(1);
+  gt_ret(1, NULL);
 }

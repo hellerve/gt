@@ -18,7 +18,7 @@ void gt_init() {
   gt_cur->st = RUNNING;
 }
 
-void __attribute__((noreturn)) gt_ret(int ret) {
+void __attribute__((noreturn)) gt_ret(int ret, gt_cleanup_fn cleanup) {
   if (gt_cur != gt_table) {
     gt_cur->st = UNUSED;
     gt_yield();
@@ -27,6 +27,7 @@ void __attribute__((noreturn)) gt_ret(int ret) {
   while (gt_yield());
 
   free(gt_table);
+  if (cleanup) cleanup();
   exit(ret);
 }
 
@@ -56,7 +57,7 @@ void gt_resize() {
   gt_cur = gt_table+diff;
 }
 
-void gt_stop() { gt_ret(0); }
+void gt_stop() { gt_ret(0, NULL); }
 
 void gt_go(gt_fn f, void* arg) {
   struct gt* p;

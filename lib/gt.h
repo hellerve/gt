@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 typedef void (*gt_fn)();
+typedef void (*gt_cleanup_fn)();
 
 struct gt {
   struct gt_ctx {
